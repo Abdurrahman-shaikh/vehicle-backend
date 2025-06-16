@@ -13,6 +13,7 @@ import java.util.List;
  * REST controller for handling Underwriter operations.
  * Supports registration, login, and fetching underwriter list.
  */
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/underwriter")
 public class UnderwriterController {

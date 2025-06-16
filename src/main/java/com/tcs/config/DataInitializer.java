@@ -13,24 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 
-/**
- * Configuration class to initialize seed data into the database
- * on application startup. It adds:
- * - One admin user (bcr_admin)
- * - Two underwriters (azmi and shifa)
- * - One vehicle for each underwriter
- */
 @Configuration
 public class DataInitializer {
 
-    /**
-     * Initializes sample login, underwriter, and vehicle data at startup.
-     *
-     * @param loginRepo        the login repository
-     * @param underwriterRepo  the underwriter repository
-     * @param vehicleRepo      the vehicle repository
-     * @return a CommandLineRunner that populates the initial data
-     */
     @Bean
     public CommandLineRunner initData(LoginRepository loginRepo,
                                       UnderwriterRepository underwriterRepo,
@@ -46,11 +31,9 @@ public class DataInitializer {
 
             // Underwriter: azmi
             if (loginRepo.findByUsername("azmi").isEmpty()) {
-                // Create login credentials
                 Login azmiLogin = new Login("azmi", encoder.encode("123"), "UNDERWRITER");
                 loginRepo.save(azmiLogin);
 
-                // Create underwriter entity
                 Underwriter azmi = new Underwriter();
                 azmi.setName("azmi");
                 azmi.setDob(LocalDate.of(1999, 1, 1));
@@ -58,22 +41,27 @@ public class DataInitializer {
                 azmi.setLogin(azmiLogin);
                 underwriterRepo.save(azmi);
 
-                // Assign a vehicle
                 Vehicle vehicle1 = new Vehicle();
-                vehicle1.setVehicleNo("UP 50 AA 8888");
-                vehicle1.setUnderwriter(azmi);
+                vehicle1.setVehicleNo("UP50AA8888");
+                vehicle1.setVehicleType("Car");
+                vehicle1.setCustomerName("Ayaan Khan");
+                vehicle1.setEngineNo("ENG123AZMI");
+                vehicle1.setChasisNo("CHS123AZMI");
+                vehicle1.setPhoneNo("9876543210");
+                vehicle1.setPolicyType("Comprehensive");
+                vehicle1.setPremiumAmount(6000.0);
+                vehicle1.setClaimStatus("Not Claimed");
                 vehicle1.setFromDate(LocalDate.now());
                 vehicle1.setToDate(LocalDate.now().plusYears(1));
+                vehicle1.setUnderwriter(azmi);
                 vehicleRepo.save(vehicle1);
             }
 
             // Underwriter: shifa
             if (loginRepo.findByUsername("shifa").isEmpty()) {
-                // Create login credentials
                 Login shifaLogin = new Login("shifa", encoder.encode("123"), "UNDERWRITER");
                 loginRepo.save(shifaLogin);
 
-                // Create underwriter entity
                 Underwriter shifa = new Underwriter();
                 shifa.setName("shifa");
                 shifa.setDob(LocalDate.of(2000, 2, 2));
@@ -81,12 +69,19 @@ public class DataInitializer {
                 shifa.setLogin(shifaLogin);
                 underwriterRepo.save(shifa);
 
-                // Assign a vehicle
                 Vehicle vehicle2 = new Vehicle();
-                vehicle2.setVehicleNo("UP 50 AA 8888");
-                vehicle2.setUnderwriter(shifa);
+                vehicle2.setVehicleNo("UP50AA7777");
+                vehicle2.setVehicleType("Scooter");
+                vehicle2.setCustomerName("Zara Fatima");
+                vehicle2.setEngineNo("ENG123SHIFA");
+                vehicle2.setChasisNo("CHS123SHIFA");
+                vehicle2.setPhoneNo("9123456789");
+                vehicle2.setPolicyType("Third Party");
+                vehicle2.setPremiumAmount(3000.0);
+                vehicle2.setClaimStatus("Not Claimed");
                 vehicle2.setFromDate(LocalDate.now());
                 vehicle2.setToDate(LocalDate.now().plusYears(1));
+                vehicle2.setUnderwriter(shifa);
                 vehicleRepo.save(vehicle2);
             }
         };

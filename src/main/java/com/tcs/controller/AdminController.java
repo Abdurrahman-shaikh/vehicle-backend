@@ -17,6 +17,8 @@ import java.util.List;
  * - Managing underwriters (register, update password, delete, fetch)
  * - Admin logout
  */
+
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
@@ -34,6 +36,7 @@ public class AdminController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Login login) {
+        System.out.println(login.getUsername());
         try {
             String token = adminService.verifyAdminLogin(login);
             return ResponseEntity.ok(token);
