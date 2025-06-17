@@ -1,0 +1,8 @@
+<h2>Underwriters</h2>
+<ul>
+  <li *ngFor="let u of underwriters">
+    {{ u.id }} - {{ u.name }} ({{ u.login.username }})
+  </li>
+</ul>
+
+<a routerLink="/underwriters"><button>View Underwriters</button></a>

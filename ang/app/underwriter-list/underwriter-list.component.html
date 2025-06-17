@@ -1,0 +1,24 @@
+<div class="container">
+  <button (click)="loadUnderwriters()">View Underwriters</button>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="showList">
+    <div *ngFor="let u of underwriters" class="card">
+      <h3>{{ u.name }} (ID: {{ u.id }})</h3>
+      <p>DOB: {{ u.dob }}</p>
+      <p>Date of Joining: {{ u.dateOfJoining }}</p>
+      <p>Username: {{ u.login?.username }}</p>
+
+      <div *ngIf="u.vehicles.length">
+        <h4>Vehicles:</h4>
+        <ul>
+          <li *ngFor="let v of u.vehicles">
+            {{ v.vehicleNo }} - {{ v.vehicleType }} - {{ v.customerName }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+

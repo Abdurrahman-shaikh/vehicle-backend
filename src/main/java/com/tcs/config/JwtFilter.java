@@ -69,6 +69,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // Parse JWT token from Authorization header
         final String authHeader = request.getHeader("Authorization");
+        System.out.println(authHeader);
         final String jwt;
         final String username;
 
@@ -109,8 +110,20 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return path.startsWith("/v3/api-docs") ||
+        String method = request.getMethod();
+
+        // Skip for OPTIONS requests and documentation paths
+        return "OPTIONS".equalsIgnoreCase(method) ||
+                path.startsWith("/v3/api-docs") ||
                 path.startsWith("/swagger-ui") ||
                 path.equals("/swagger-ui.html");
     }
+//    @Override
+//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//        String path = request.getRequestURI();
+//        return path.startsWith("/v3/api-docs") ||
+//                path.startsWith("/swagger-ui") ||
+//                path.equals("/swagger-ui.html");
+//    }
 }
+

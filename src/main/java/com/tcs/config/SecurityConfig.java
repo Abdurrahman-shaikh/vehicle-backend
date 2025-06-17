@@ -16,6 +16,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 /**
  * Configures Spring Security for the application including:
@@ -54,8 +59,8 @@ public class SecurityConfig {
                                 "/api/underwriter/login",
                                 "/login", "/register",
                                 "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
-                                "/h2-console/**"
-                        ).permitAll()
+                                "/h2-console/**")
+                        .permitAll()
 
                         // Admin-protected endpoints
                         .requestMatchers("/api/underwriters/**").hasRole("ADMIN")
@@ -65,8 +70,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/vehicle/register").hasRole("UNDERWRITER")
 
                         // Any other endpoint requires authentication
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 // Stateless session (no HTTP session will be created or used)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
@@ -100,4 +104,21 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+
+    // @Bean
+    // public CorsConfigurationSource corsConfigurationSource() {
+    // CorsConfiguration configuration = new CorsConfiguration();
+    // configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+    // configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE",
+    // "OPTIONS"));
+    // configuration.setAllowedHeaders(Arrays.asList("Content-Type",
+    // "Authorization", "X-XSRF-TOKEN"));
+    // configuration.setAllowCredentials(true);
+    // configuration.setMaxAge(3600L);
+    //
+    // UrlBasedCorsConfigurationSource source = new
+    // UrlBasedCorsConfigurationSource();
+    // source.registerCorsConfiguration("/**", configuration);
+    // return source;
+    // }
 }
